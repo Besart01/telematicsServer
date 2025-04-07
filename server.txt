@@ -1,0 +1,60 @@
+import * as net from 'net';
+import { TeltonikaParser } from './teltonikaParser';
+
+type DeviceInfo = {
+    socket: net.Socket;
+    imei?: string;
+    lastPacketTime?: Date;
+};
+
+const devices = new Map<string, DeviceInfo>();
+
+const server = net.createServer((socket: net.Socket) => {
+    const connId = `${socket.remoteAddress}:${socket.remotePort}`;
+    console.log(`New connection: ${connId}`);
+    
+    devices.set(connId, { socket });
+
+    socket.on('data', (data: Buffer) => {
+        try {
+            const result = TeltonikaParser.processPacket(data);
+            const device = devices.get(connId);
+
+            if (!device) return;
+
+            if (result.type === 'imei') {
+                device.imei = result.imei;
+                console.log(`Device IMEI registered: ${result.imei}`);
+            } else {
+                device.lastPacketTime = new Date();
+                console.log(`Data from ${device.imei || connId}:`, result.data);
+                
+                if (result.data.CodecType === 'data sending') {
+                    const gpsData = result.data.Content;
+                    console.log('GPS Data:', gpsData);
+                }
+            }
+        } catch (error) {
+
+            if (error instanceof Error) {
+                console.error(`Error processing packet from ${connId}:`, error.message);
+            } else {
+                console.error(`Unknown error processing packet from ${connId}:`, error);
+            }
+        }
+    });
+
+    socket.on('close', () => {
+        console.log(`Connection closed: ${connId}`);
+        devices.delete(connId);
+    });
+
+    socket.on('error', (err: Error) => {
+        console.error(`Socket error on ${connId}:`, err.message);
+    });
+});
+
+const PORT = 5025;
+server.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+});
