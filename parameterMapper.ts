@@ -1,8 +1,4 @@
-// parameterMapper.ts
-import * as camelCase from 'camelcase';
 
-
-// Define the mapping object
 export const codecElements: { [key: string]: string } = {
     '0': 'digitalInput1',
     '2': 'digitalInput2',
@@ -264,6 +260,37 @@ export function mapParameters(data: {
         };
     });
 }
+
+
+export function lastMapParameters(data: {
+    timestamp: Date;
+    gps: any;
+    io: {
+        EventID: number;
+        ElementCount: number;
+        Elements: { [key: string]: any };
+    };
+}[]) {
+    if (data.length === 0) return null;  // Handle empty array case
+
+    const item = data[0];  // Take the first item
+    const elements = item.io.Elements || {};
+    const gpsData = item.gps || {};
+    const elementFields: { [key: string]: any } = {};
+
+    for (const key in elements) {
+        const fieldName = codecElements[key] || toCamelCase(key);
+        elementFields[fieldName] = elements[key];
+    }
+
+    return {
+        timestamp: item.timestamp,
+        gps: convertKeysToCamelCase(gpsData),
+        elements: convertKeysToCamelCase(elementFields),
+        eventId: item.io.EventID
+    };
+}
+
 
 export function getParameterName(id: string): string | undefined {
     return codecElements[id];

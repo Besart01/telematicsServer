@@ -1,46 +1,10 @@
-// import * as net from 'net';
-
-// const connectedDevices: Map<string, net.Socket> = new Map();
-
-// const server = net.createServer((socket: net.Socket) => {
-//     const deviceId = `${socket.remoteAddress}:${socket.remotePort}`;
-//     console.log("New connection from:", deviceId);
-    
-//     connectedDevices.set(deviceId, socket);
-
-//     socket.on("data", (data: Buffer) => {
-//         console.log(`Data from ${deviceId}:`, data.toString());
-//     });
-
-//     socket.on("close", () => {
-//         console.log(`Device disconnected: ${deviceId}`);
-//         connectedDevices.delete(deviceId);
-//     });
-
-//     socket.on("error", (err: Error) => {
-//         console.error(`Error with ${deviceId}:`, err.message);
-//     });
-// });
-
-// const PORT = 5025;
-// server.on('error', (err: Error) => {
-//     console.error('Server error:', err);
-// });
-
-// server.listen(PORT, () => {
-//     console.log(`Server started on port ${PORT}`);
-//     console.log(`Try connecting with: telnet localhost ${PORT}`);
-// });
-
-
 import * as net from 'net';
 import { TeltonikaParser } from './TeltonikaParser/teltonikaParser';
-import { mapParameters } from './parameterMapper';
+import {lastMapParameters, mapParameters} from './parameterMapper';
 
 type DeviceInfo = {
     socket: net.Socket;
     imei?: string;
-    lastPacketTime?: Date;
 };
 
 const devices = new Map<string, DeviceInfo>();
@@ -48,7 +12,7 @@ const devices = new Map<string, DeviceInfo>();
 const server = net.createServer((socket: net.Socket) => {
     const connId = `${socket.remoteAddress}:${socket.remotePort}`;
     console.log(`New connection: ${connId}`);
-    
+
     devices.set(connId, { socket });
 
     socket.on('data', (data: Buffer) => {
@@ -56,14 +20,14 @@ const server = net.createServer((socket: net.Socket) => {
             const result = TeltonikaParser.processPacket(data);
             const device = devices.get(connId);
             if (!device) return;
-    
+
             if (result.type === 'imei') {
                 device.imei = result.imei;
-                console.log(`IMEI registered: ${result.imei}`);
+                console.log(`IMEI : ${result.imei}`);
             } else if (result.data.CodecType === 'data sending') {
                 // Type guard to ensure we have Data type
                 const content = result.data.Content as { AVL_Datas?: any[] };
-                
+
                 if (content.AVL_Datas) {
 
                     const avlDataArray = content.AVL_Datas.map(avl => ({
@@ -76,10 +40,10 @@ const server = net.createServer((socket: net.Socket) => {
                         }
                     }));
 
-                    
+
                     const mappedData = mapParameters(avlDataArray);
-                    
-                    // // Log both original and mapped data (you can remove original logging if not needed)
+                    const lastestMappedData = lastMapParameters(avlDataArray);
+                    // // Log both original and mapped data
                     // content.AVL_Datas.forEach(avl => {
                     //     console.log(`[${device.imei}] Original Data:`, {
                     //         timestamp: avl.Timestamp,
@@ -88,7 +52,8 @@ const server = net.createServer((socket: net.Socket) => {
                     //     });
                     // });
 
-                    console.log(`[${device.imei}] Mapped Data:`, mappedData);
+                    console.log(`${device.imei}:`, mappedData);
+                    console.log(`${device.imei} lastest Data:`, lastestMappedData);
 
                 }
             }
@@ -106,6 +71,7 @@ const server = net.createServer((socket: net.Socket) => {
         console.error(`Socket error on ${connId}:`, err.message);
     });
 });
+
 
 const PORT = 5025;
 server.listen(PORT, () => {
