@@ -5,6 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4ea836af-98c1-4327-b37b-7a10eac90d5c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/75fc4933-a5c9-417c-b126-af3ac76bc8a1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/75fc4933-a5c9-417c-b126-af3ac76bc8a1/storage_v2/_src_/database/HomeAssitant.GiU5KQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/75fc4933-a5c9-417c-b126-af3ac76bc8a1/storage_v2/_src_/database/HomeAssitant.GiU5KQ/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/75fc4933-a5c9-417c-b126-af3ac76bc8a1/storage_v2/_src_/database/HomeAssitant.GiU5KQ/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/75fc4933-a5c9-417c-b126-af3ac76bc8a1/storage_v2/_src_/database/postgres.edMnLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/75fc4933-a5c9-417c-b126-af3ac76bc8a1/storage_v2/_src_/database/postgres.edMnLQ/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/75fc4933-a5c9-417c-b126-af3ac76bc8a1/storage_v2/_src_/database/postgres.edMnLQ/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/75fc4933-a5c9-417c-b126-af3ac76bc8a1/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/da2e8a04-a26a-48ac-bfa3-5814835750d7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/da2e8a04-a26a-48ac-bfa3-5814835750d7/storage_v2/_src_/database/postgres.edMnLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/da2e8a04-a26a-48ac-bfa3-5814835750d7/storage_v2/_src_/database/postgres.edMnLQ/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/da2e8a04-a26a-48ac-bfa3-5814835750d7/storage_v2/_src_/database/postgres.edMnLQ/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/da2e8a04-a26a-48ac-bfa3-5814835750d7/storage_v2/_src_/database/trackerDB.tvGHKw.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/da2e8a04-a26a-48ac-bfa3-5814835750d7/storage_v2/_src_/database/trackerDB.tvGHKw/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/da2e8a04-a26a-48ac-bfa3-5814835750d7/storage_v2/_src_/database/trackerDB.tvGHKw/schema/information_schema.FNRwLQ.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/da2e8a04-a26a-48ac-bfa3-5814835750d7/storage_v2/_src_/database/trackerDB.tvGHKw/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/da2e8a04-a26a-48ac-bfa3-5814835750d7/storage_v2/_src_/database/trackerDB.tvGHKw/schema/pg_catalog.0S1ZNQ.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/da2e8a04-a26a-48ac-bfa3-5814835750d7/storage_v2/_src_/database/trackerDB.tvGHKw/schema/public.abK9xQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/da2e8a04-a26a-48ac-bfa3-5814835750d7/storage_v2/_src_/database/trackerDB.tvGHKw/schema/public.abK9xQ.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TeltonikaParser" beforeDir="false" afterPath="$PROJECT_DIR$/TeltonikaParser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TeltonikaParser/Scripts/AVL Data Parser/IOelement.ts" beforeDir="false" afterPath="$PROJECT_DIR$/TeltonikaParser/Scripts/AVL Data Parser/IOelement.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TeltonikaParser/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/TeltonikaParser/package.json" afterDir="false" />
@@ -44,7 +66,7 @@
     "Node.js.config.ts.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/intelory/Desktop/fleetTracking",
+    "last_opened_file_path": "/home/intelory/Desktop/telematicsServer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -92,7 +114,7 @@
       <workItem from="1744662694799" duration="5187000" />
       <workItem from="1744702174543" duration="4667000" />
       <workItem from="1744789060990" duration="727000" />
-      <workItem from="1744789946590" duration="7328000" />
+      <workItem from="1744789946590" duration="8347000" />
     </task>
     <servers />
   </component>
