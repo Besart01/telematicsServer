@@ -6,9 +6,11 @@
     "serve": "node dist/server.js"
   },
   "dependencies": {
+    "@influxdata/influxdb-client": "^1.35.0",
     "@types/node": "^22.14.0",
     "camelcase": "^8.0.0",
     "complete-teltonika-parser": "^0.3.6",
+    "dotenv": "^16.4.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },

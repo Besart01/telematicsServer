@@ -1,60 +1,294 @@
-import * as net from 'net';
-import { TeltonikaParser } from './teltonikaParser';
+---------------------------------- 14 APR 2025 ---------------------
 
-type DeviceInfo = {
-    socket: net.Socket;
-    imei?: string;
-    lastPacketTime?: Date;
-};
+// import * as net from 'net';
+// import { TeltonikaParser } from './TeltonikaParser/teltonikaParser';
+// import {lastMapParameters, mapParameters} from './parameterMapper';
+//
+// type DeviceInfo = {
+//     socket: net.Socket;
+//     imei?: string;
+// };
+//
+// const devices = new Map<string, DeviceInfo>();
+//
+// const server = net.createServer((socket: net.Socket) => {
+//     const connId = `${socket.remoteAddress}:${socket.remotePort}`;
+//     console.log(`New connection: ${connId}`);
+//
+//     devices.set(connId, { socket });
+//
+//     socket.on('data', (data: Buffer) => {
+//         try {
+//             const result = TeltonikaParser.processPacket(data);
+//             const device = devices.get(connId);
+//             if (!device) return;
+//
+//             if (result.type === 'imei') {
+//                 device.imei = result.imei;
+//                 console.log(`IMEI : ${result.imei}`);
+//             } else if (result.data.CodecType === 'data sending') {
+//                 // Type guard to ensure we have Data type
+//                 const content = result.data.Content as { AVL_Datas?: any[] };
+//
+//                 if (content.AVL_Datas) {
+//
+//                     const avlDataArray = content.AVL_Datas.map(avl => ({
+//                         timestamp: avl.Timestamp,
+//                         gps: avl.GPSelement,
+//                         io: {
+//                             EventID: avl.IOelement.EventID,
+//                             ElementCount: avl.IOelement.ElementCount,
+//                             Elements: avl.IOelement.Elements
+//                         }
+//                     }));
+//
+//
+//                     const mappedData = mapParameters(avlDataArray);
+//                     const lastestMappedData = lastMapParameters(avlDataArray);
+//                     // // Log both original and mapped data
+//                     // content.AVL_Datas.forEach(avl => {
+//                     //     console.log(`[${device.imei}] Original Data:`, {
+//                     //         timestamp: avl.Timestamp,
+//                     //         gps: avl.GPSelement,
+//                     //         io: avl.IOelement
+//                     //     });
+//                     // });
+//
+//                     console.log(`${device.imei}:`, mappedData);
+//                     console.log(`${device.imei} lastest Data:`, lastestMappedData);
+//
+//                 }
+//             }
+//         } catch (error) {
+//             console.error(`Error from ${connId}:`, error instanceof Error ? error.message : error);
+//         }
+//     });
+//
+//     socket.on('close', () => {
+//         console.log(`Connection closed: ${connId}`);
+//         devices.delete(connId);
+//     });
+//
+//     socket.on('error', (err: Error) => {
+//         console.error(`Socket error on ${connId}:`, err.message);
+//     });
+// });
+//
+//
+// const PORT = 5025;
+// server.listen(PORT, () => {
+//     console.log(`Server listening on port ${PORT}`);
+// });
+//
 
-const devices = new Map<string, DeviceInfo>();
+// import { InfluxService } from './db/services/influxService';
+// import { ConnectedDevice } from './db/models/deviceModel';
 
-const server = net.createServer((socket: net.Socket) => {
-    const connId = `${socket.remoteAddress}:${socket.remotePort}`;
-    console.log(`New connection: ${connId}`);
-    
-    devices.set(connId, { socket });
 
-    socket.on('data', (data: Buffer) => {
-        try {
-            const result = TeltonikaParser.processPacket(data);
-            const device = devices.get(connId);
 
-            if (!device) return;
 
-            if (result.type === 'imei') {
-                device.imei = result.imei;
-                console.log(`Device IMEI registered: ${result.imei}`);
-            } else {
-                device.lastPacketTime = new Date();
-                console.log(`Data from ${device.imei || connId}:`, result.data);
-                
-                if (result.data.CodecType === 'data sending') {
-                    const gpsData = result.data.Content;
-                    console.log('GPS Data:', gpsData);
-                }
-            }
-        } catch (error) {
-
-            if (error instanceof Error) {
-                console.error(`Error processing packet from ${connId}:`, error.message);
-            } else {
-                console.error(`Unknown error processing packet from ${connId}:`, error);
-            }
-        }
-    });
-
-    socket.on('close', () => {
-        console.log(`Connection closed: ${connId}`);
-        devices.delete(connId);
-    });
-
-    socket.on('error', (err: Error) => {
-        console.error(`Socket error on ${connId}:`, err.message);
-    });
-});
-
-const PORT = 5025;
-server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-});
+// import * as net from 'net';
+// import { TeltonikaParser } from './TeltonikaParser/teltonikaParser';
+// import { lastMapParameters, mapParameters } from './parameterMapper';
+// import {InfluxService, ConnectedDevice, createTelemetryPoint, DeviceTelemetry} from './db';
+//
+//
+//
+// type DeviceInfo = {
+//     socket: net.Socket;
+//     imei?: string;
+//     connectedAt: Date;
+//     lastActiveAt: Date;
+// };
+//
+// const devices = new Map<string, DeviceInfo>();
+//
+// const server = net.createServer((socket: net.Socket) => {
+//     const connId = `${socket.remoteAddress}:${socket.remotePort}`;
+//     console.log(`New connection: ${connId}`);
+//     console.log('--- Socket Connection Details ---');
+//     console.log(`Remote Address   : ${socket.remoteAddress}`);
+//     console.log(`Remote Port      : ${socket.remotePort}`);
+//     console.log(`Remote Family    : ${socket.remoteFamily}`);
+//     console.log(`Local Address    : ${socket.localAddress}`);
+//     console.log(`Local Port       : ${socket.localPort}`);
+//     console.log(`Bytes Read       : ${socket.bytesRead}`);
+//     console.log(`Bytes Written    : ${socket.bytesWritten}`);
+//     console.log(`Timeout          : ${socket.timeout}`);
+//     console.log(`Ready State      : ${socket.readyState}`);
+//     console.log(`Allow Half Open  : ${socket.allowHalfOpen}`);
+//     console.log(`Readable         : ${socket.readable}`);
+//     console.log(`Writable         : ${socket.writable}`);
+//     console.log('----------------------------------');
+//     const now = new Date();
+//     devices.set(connId, {
+//         socket,
+//         connectedAt: now,
+//         lastActiveAt: now
+//     });
+//
+//     socket.on('data', async (data: Buffer) => {
+//         try {
+//             const result = TeltonikaParser.processPacket(data);
+//             const device = devices.get(connId);
+//             if (!device) return;
+//
+//             // Update the last active timestamp
+//             device.lastActiveAt = new Date();
+//
+//             if (result.type === 'imei') {
+//                 device.imei = result.imei;
+//                 console.log(`IMEI : ${result.imei}`);
+//
+//                 // Store device connection in InfluxDB
+//                 if (socket.remoteAddress) {
+//                     try {
+//                         const connectedDevice: ConnectedDevice = {
+//                             imei: result.imei,
+//                             ipAddress: socket.remoteAddress,
+//                             port: socket.remotePort || 0,
+//                             connectedAt: device.connectedAt,
+//                             lastActiveAt: device.lastActiveAt
+//                         };
+//
+//                         await InfluxService.saveConnectedDevice(connectedDevice);
+//                     } catch (dbError) {
+//                         console.error(`Error saving connection to InfluxDB for ${result.imei}:`, dbError);
+//                     }
+//                 }
+//             } else if (result.data.CodecType === 'data sending') {
+//                 // Type guard to ensure we have Data type
+//                 const content = result.data.Content as { AVL_Datas?: any[] };
+//
+//                 if (content.AVL_Datas && device.imei) {
+//                     const avlDataArray = content.AVL_Datas.map(avl => ({
+//                         timestamp: avl.Timestamp,
+//                         gps: avl.GPSelement,
+//                         io: {
+//                             EventID: avl.IOelement.EventID,
+//                             ElementCount: avl.IOelement.ElementCount,
+//                             Elements: avl.IOelement.Elements
+//                         }
+//                     }));
+//
+//                     const mappedData = mapParameters(avlDataArray);
+//                     const lastestMappedData = lastMapParameters(avlDataArray);
+//
+//                     console.log(`${device.imei}:`, mappedData);
+//                     console.log(`${device.imei} lastest Data:`, lastestMappedData);
+//
+//                     // Update device activity timestamp in InfluxDB
+//                     if (lastestMappedData) {
+//                         try {
+//                             const telemetryPoint: DeviceTelemetry = {
+//                                 imei: device.imei,
+//                                 eventId: lastestMappedData.eventId,
+//                                 timestamp: new Date(),
+//                                 gps: lastestMappedData.gps,
+//                                 elements: lastestMappedData.elements
+//                             };
+//
+//                             await InfluxService.saveDeviceTelemetry(telemetryPoint);
+//                         } catch (dbError) {
+//                             console.error(`Error updating activity in InfluxDB for ${device.imei}:`, dbError);
+//                         }
+//                     }
+//
+//                     if (socket.remoteAddress) {
+//                         try {
+//                             const connectedDevice: ConnectedDevice = {
+//                                 imei: device.imei,
+//                                 ipAddress: socket.remoteAddress,
+//                                 port: socket.remotePort || 0,
+//                                 connectedAt: device.connectedAt,
+//                                 lastActiveAt: device.lastActiveAt
+//                             };
+//
+//                             await InfluxService.saveConnectedDevice(connectedDevice);
+//                         } catch (dbError) {
+//                             console.error(`Error updating activity in InfluxDB for ${device.imei}:`, dbError);
+//                         }
+//                     }
+//                 }
+//             }
+//         } catch (error) {
+//             console.error(`Error from ${connId}:`, error instanceof Error ? error.message : error);
+//         }
+//     });
+//
+//     socket.on('close', async () => {
+//         console.log(`Connection closed: ${connId}`);
+//         const device = devices.get(connId);
+//
+//         // Mark device as disconnected in InfluxDB
+//         if (device?.imei && socket.remoteAddress) {
+//             try {
+//                 await InfluxService.markDeviceDisconnected(
+//                     device.imei,
+//                     socket.remoteAddress,
+//                     new Date()
+//                 );
+//             } catch (dbError) {
+//                 console.error(`Error marking device as disconnected in InfluxDB for ${device.imei}:`, dbError);
+//             }
+//         }
+//
+//         devices.delete(connId);
+//     });
+//
+//     socket.on('error', (err: Error) => {
+//         console.error(`Socket error on ${connId}:`, err.message);
+//     });
+// });
+//
+// // // Periodically update connected devices status in InfluxDB
+// // const UPDATE_INTERVAL = 60000; // 1 minute
+// // setInterval(async () => {
+// //     const now = new Date();
+// //     for (const [connId, device] of devices.entries()) {
+// //         if (device.imei && device.socket.remoteAddress) {
+// //             try {
+// //                 const connectedDevice: ConnectedDevice = {
+// //                     imei: device.imei,
+// //                     ipAddress: device.socket.remoteAddress,
+// //                     port: device.socket.remotePort || 0,
+// //                     connectedAt: device.connectedAt,
+// //                     lastActiveAt: now
+// //                 };
+// //
+// //                 await InfluxService.saveConnectedDevice(connectedDevice);
+// //             } catch (error) {
+// //                 console.error(`Error updating connection status for ${device.imei}:`, error);
+// //             }
+// //         }
+// //     }
+// // }, UPDATE_INTERVAL);
+//
+// const PORT = 5025;
+// server.listen(PORT, () => {
+//     console.log(`Server listening on port ${PORT}`);
+// });
+//
+//
+//
+//
+//
+// // // Catch all Mappeddata each eventID .... Not Necceasry
+//
+// // if (mappedData) {
+// //     try {
+// //         for (const dataItem of mappedData) {
+// //             const telemetryPoint: DeviceTelemetry = {
+// //                 imei: device.imei,
+// //                 eventId: dataItem.eventId,
+// //                 timestamp: new Date(),
+// //                 gps: dataItem.gps,
+// //                 elements: dataItem.elements
+// //             };
+// //
+// //             await InfluxService.saveDeviceTelemetry(telemetryPoint);
+// //         }
+// //     } catch (dbError) {
+// //         console.error(`Error updating activity in InfluxDB for ${device.imei}:`, dbError);
+// //     }
+// // }
